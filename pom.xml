@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>org.mule.transports</groupId>
+   <artifactId>mule-transport-jpa</artifactId>
+   <packaging>jar</packaging>
+   <name>Mule JPA Transport</name>
+   <version>1.0</version>
+   <description></description>
+
+    <properties>
+        <mule.version>2.2.1</mule.version>
+        <!-- Tools properties -->
+        <eclipsePluginVersion>2.5</eclipsePluginVersion>
+        <vmtype>org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType</vmtype>
+    </properties>
+
+    <build>
+		    <defaultGoal>install</defaultGoal>
+		    <finalName>${artifactId}-${version}</finalName>
+		
+		    <resources>
+			      <resource>
+  			        <directory>conf</directory>
+			      </resource>
+			      <resource>
+  			        <directory>src/main/resources</directory>
+			      </resource>
+		    </resources>
+		    
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <finalName>mule-transport-jpa-${version}</finalName>
+                    <descriptors>
+                        <descriptor>assembly.xml</descriptor>
+                    </descriptors>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            
+			      <plugin>
+				        <artifactId>maven-eclipse-plugin</artifactId>
+				        <version>2.5.1</version>
+				        <configuration>
+					          <downloadSources>true</downloadSources>
+					          <downloadJavadocs>false</downloadJavadocs>
+				        </configuration>
+			      </plugin>
+			      
+			      <plugin>
+			          <groupId>org.apache.maven.plugins</groupId>
+			          <artifactId>maven-source-plugin</artifactId>
+			          <executions>
+			              <execution>
+			                  <id>attach-sources</id>
+			                  <phase>verify</phase>
+			                  <goals>
+			                      <goal>jar</goal>
+			                  </goals>
+			              </execution>
+			          </executions>
+			      </plugin>
+
+        </plugins>
+        
+        <extensions>
+            <extension>
+				        <groupId>org.apache.maven.wagon</groupId>
+				        <artifactId>wagon-ssh</artifactId>
+				        <version>1.0-beta-5</version>
+            </extension>
+        </extensions>
+    </build>
+
+    <!-- Mule Dependencies -->
+    <dependencies>
+        <!-- Mule Modules: You will need to add and remove as necessary -->
+        <dependency>
+            <groupId>org.mule</groupId>
+            <artifactId>mule-core</artifactId>
+            <version>${mule.version}</version>
+        </dependency>
+        <!-- Xml configuration -->
+        <dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-spring-config</artifactId>
+            <version>${mule.version}</version>
+        </dependency>
+
+        <!-- Mule Modules -->
+        
+        <!-- for testing -->
+        <dependency>
+            <groupId>org.mule.tests</groupId>
+            <artifactId>mule-tests-functional</artifactId>
+            <version>${mule.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>mockobjects</groupId>
+            <artifactId>mockobjects-core</artifactId>
+            <version>0.09</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.2</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>ejb3-persistence</artifactId>
+            <version>1.0.2.GA</version>
+        </dependency>
+    </dependencies>
+
+        <!-- Mule Forge Configuration -->
+    <!--<issueManagement>
+        <system>Jira</system>
+        <url>http://www.mulesource.org/jira/browse/HIBERNATEJPATRANSPORT</url>
+    </issueManagement>-->
+
+    <!--<scm>
+        <connection>scm:svn:http://svn.muleforge.org/hibernatejpatransport/</connection>
+        <developerConnection>scm:svn:https://svn.muleforge.org/hibernatejpatransport/</developerConnection>
+        <tag>HEAD</tag>
+        <url>http://svn.hibernatejpatransport.muleforge.org/</url>
+    </scm>-->
+
+
+    <!--<ciManagement>
+        <system>Bamboo</system>
+        <url>http://bamboo.muleforge.org/browse/HIBERNATEJPATRANSPORT-FORGE</url>
+        <notifiers/>
+    </ciManagement>-->
+
+    <!--<distributionManagement>
+        <repository>
+            <id>muleforge.webdav.releases</id>
+            <url>dav:https://dav.muleforge.org/repository/hibernatejpatransport/</url>
+        </repository>
+        <snapshotRepository>
+            <id>muleforge.webdav.snapshots</id>
+            <url>dav:https://dav.muleforge.org/snapshots.repository/hibernatejpatransport/</url>
+        </snapshotRepository>
+        <site>
+            <id>muleforge.webdav.sites</id>
+            <url>dav:https://dav.muleforge.org/hibernatejpatransport/</url>
+        </site>
+    </distributionManagement>-->
+
+    <!-- End of MuleForge Configuration -->
+    <repositories>
+        <repository>
+            <id>muleforge-repo</id>
+            <name>MuleForge Repository</name>
+            <url>http://repository.muleforge.org</url>
+            <layout>default</layout>
+        </repository>
+
+        <repository>
+            <id>codehaus-repo</id>
+            <name>Codehaus Repository</name>
+            <url>http://dist.codehaus.org/mule/dependencies/maven2</url>
+            <layout>default</layout>
+        </repository>
+		    <repository>
+						<id>jboss</id>
+						<name>JBoss Repository</name>
+						<url>http://repository.jboss.com/maven2</url>
+		    </repository>
+    </repositories>
+
+	  <distributionManagement>
+		    <repository>
+			      <id>mule-user-ssh</id>
+			      <url>scp://luka.tk-bay.ogis-ri.co.jp/usr/mule/maven2</url>
+		    </repository>
+	  </distributionManagement>
+
+</project>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="http://www.mulesource.org/schema/mule/jpa/2.2"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:mule="http://www.mulesource.org/schema/mule/core/2.2"
+            xmlns:schemadoc="http://www.mulesource.org/schema/mule/schemadoc/2.2"
+            targetNamespace="http://www.mulesource.org/schema/mule/jpa/2.2"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.mulesource.org/schema/mule/core/2.2"
+                schemaLocation="http://www.mulesource.org/schema/mule/core/2.2/mule.xsd" />
+    <xsd:import namespace = "http://www.mulesource.org/schema/mule/schemadoc/2.2"
+                schemaLocation = "http://www.mulesource.org/schema/mule/schemadoc/2.2/mule-schemadoc.xsd"/>
+
+    <xsd:annotation>
+        <xsd:documentation></xsd:documentation>
+        <xsd:appinfo>
+            <schemadoc:short-name>Jpa</schemadoc:short-name>
+            <schemadoc:page-title>Jpa Transport</schemadoc:page-title>
+            <schemadoc:transport-features
+                receiveEvents="true" dispatchEvents="true" responseEvents="true"
+                requestEvents="false" transactions="true" streaming="false">
+                <schemadoc:inboundMEPs in-only="${receiver}" in-optional-out="true" in-out="true"/>
+                <schemadoc:outboundMEPs out-only="${dispatcher}" out-in="true" out-optional-in="true"/>
+            </schemadoc:transport-features>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+    <xsd:element name="connector" type="jpaConnectorType" substitutionGroup="mule:abstract-connector">
+        <xsd:annotation>
+            <xsd:documentation>
+                
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+
+    <xsd:complexType name="jpaConnectorType">
+        <xsd:complexContent>
+            <xsd:extension base="mule:connectorType">
+                <xsd:sequence>
+                    <xsd:element ref="abstract-sqlStatementStrategyFactory" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element ref="abstract-query" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>Defines a set of queries. Each query has a key
+                                and a value (SQL statement). Queries are later referenced by
+                                key.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+                <xsd:attribute name="persistenceUnit" type="xsd:string" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <!--
+    The following define endpoint elements for this transport. Attributes for the endpoint can be defined at the section
+    at the bottom
+    -->
+    <xsd:element name="inbound-endpoint" type="inboundEndpointType" substitutionGroup="mule:abstract-inbound-endpoint"/>
+    <xsd:complexType name="inboundEndpointType">
+        <xsd:complexContent>
+            <xsd:extension base="mule:inboundEndpointWithXaType">
+                <xsd:sequence>
+                    <xsd:element ref="abstract-query" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+                <xsd:attribute name="queryKey" type="xsd:string" use="required"/>
+                <xsd:attribute name="maxFetchSize" type="xsd:long"  use="optional"/>
+                <xsd:attribute name="pollingFrequency" type="mule:substitutableLong" use="optional"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="outbound-endpoint" type="outboundEndpointType" substitutionGroup="mule:abstract-outbound-endpoint"/>
+    <xsd:complexType name="outboundEndpointType">
+        <xsd:complexContent>
+            <xsd:extension base="mule:outboundEndpointWithXaType">
+				        <xsd:attribute name="createChange-ref" type="xsd:NMTOKEN" use="optional"/>
+                <xsd:attribute name="queryKey" type="xsd:string" use="optional"/>
+                <xsd:attribute name="maxFetchSize" type="xsd:long" use="optional"/>
+				        <xsd:attribute name="action" type="xsd:string" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="endpoint" type="globalEndpointType" substitutionGroup="mule:abstract-global-endpoint"/>
+    <xsd:complexType name="globalEndpointType">
+        <xsd:complexContent>
+            <xsd:extension base="mule:globalEndpointWithXaType">
+                <xsd:sequence>
+                    <xsd:element ref="abstract-query" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+                <xsd:attribute name="createChange-ref" type="xsd:NMTOKEN" use="optional"/>
+				        <xsd:attribute name="queryKey" type="xsd:string" use="optional"/>
+                <xsd:attribute name="maxFetchSize" type="xsd:long" use="optional"/>
+                <xsd:attribute name="action" default="merge" use="optional"/>
+                <xsd:attribute name="pollingFrequency" type="mule:substitutableLong" use="optional" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <!-- Define a type hierarchy so that the EE transport can re-define the "query" element. -->
+    <xsd:element name="abstract-query" abstract="true" type="abstractQueryType"/>
+    <xsd:complexType name="abstractQueryType">
+        <xsd:complexContent>
+            <xsd:extension base="mule:keyValueType"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:element name="query" type="queryType" substitutionGroup="abstract-query">
+        <xsd:annotation>
+            <xsd:documentation>Assigns a name (key) to a query (value). Queries
+                are then referenced by key, such as jdbc://myQuery for
+                <![CDATA[<jdbc:query key="myQuery" value="select * from table"/>]]>
+                </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:complexType name="queryType">
+        <xsd:complexContent>
+            <xsd:extension base="abstractQueryType"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="transaction" type="transactionType" substitutionGroup="mule:abstract-transaction">
+        <xsd:annotation>
+            <xsd:documentation>
+                            Standard Mule transaction configuration. See [Transaction Management] for usage details. 
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:complexType name="transactionType">
+        <xsd:complexContent>
+            <xsd:extension base="mule:baseTransactionType"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <!--
+        sqlStatementStrategyFactory element
+    -->
+    <xsd:element name="abstract-sqlStatementStrategyFactory" abstract="true" type="abstractSqlStatementStrategyFactoryType"/>
+    <xsd:complexType name="abstractSqlStatementStrategyFactoryType"/>
+
+    <xsd:element name="sqlStatementStrategyFactory" type="sqlStatementStrategyFactoryType" substitutionGroup="abstract-sqlStatementStrategyFactory">
+        <xsd:annotation>
+            <xsd:documentation>Override the default SqlStatementStrategyFactory. Determines the
+                execution strategy based on the SQL provided.</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:complexType name="sqlStatementStrategyFactoryType">
+        <xsd:complexContent>
+            <xsd:extension base="abstractSqlStatementStrategyFactoryType">
+                <xsd:attributeGroup ref="sqlStatementStrategyFactoryAttributes"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:attributeGroup name="sqlStatementStrategyFactoryAttributes">
+        <xsd:attribute name="class" type="mule:substitutableClass" use="optional"/>
+        <xsd:attribute name="ref" use="optional" type="xsd:NMTOKEN"/>
+    </xsd:attributeGroup>
+
+</xsd:schema>
