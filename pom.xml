@@ -78,13 +78,13 @@
 
         </plugins>
         
-        <extensions>
+        <!--<extensions>
             <extension>
 				        <groupId>org.apache.maven.wagon</groupId>
 				        <artifactId>wagon-ssh</artifactId>
 				        <version>1.0-beta-5</version>
             </extension>
-        </extensions>
+        </extensions>-->
     </build>
 
     <!-- Mule Dependencies -->
@@ -131,40 +131,39 @@
         </dependency>
     </dependencies>
 
-        <!-- Mule Forge Configuration -->
-    <!--<issueManagement>
+    <!-- Mule Forge Configuration -->
+    <issueManagement>
         <system>Jira</system>
-        <url>http://www.mulesource.org/jira/browse/HIBERNATEJPATRANSPORT</url>
-    </issueManagement>-->
+        <url>http://www.mulesource.org/jira/browse/JPA</url>
+    </issueManagement>
 
-    <!--<scm>
-        <connection>scm:svn:http://svn.muleforge.org/hibernatejpatransport/</connection>
-        <developerConnection>scm:svn:https://svn.muleforge.org/hibernatejpatransport/</developerConnection>
+    <scm>
+        <connection>scm:svn:http://svn.muleforge.org/jpa/</connection>
+        <developerConnection>scm:svn:https://svn.muleforge.org/jpa/</developerConnection>
         <tag>HEAD</tag>
-        <url>http://svn.hibernatejpatransport.muleforge.org/</url>
-    </scm>-->
+        <url>http://svn.jpa.muleforge.org/</url>
+    </scm>
 
-
-    <!--<ciManagement>
+    <ciManagement>
         <system>Bamboo</system>
-        <url>http://bamboo.muleforge.org/browse/HIBERNATEJPATRANSPORT-FORGE</url>
+        <url>http://bamboo.muleforge.org/browse/JPA</url>
         <notifiers/>
-    </ciManagement>-->
+    </ciManagement>
 
-    <!--<distributionManagement>
+    <distributionManagement>
         <repository>
             <id>muleforge.webdav.releases</id>
-            <url>dav:https://dav.muleforge.org/repository/hibernatejpatransport/</url>
+            <url>dav:https://dav.muleforge.org/repository/jpa/</url>
         </repository>
         <snapshotRepository>
             <id>muleforge.webdav.snapshots</id>
-            <url>dav:https://dav.muleforge.org/snapshots.repository/hibernatejpatransport/</url>
+            <url>dav:https://dav.muleforge.org/snapshots.repository/jpa/</url>
         </snapshotRepository>
         <site>
             <id>muleforge.webdav.sites</id>
-            <url>dav:https://dav.muleforge.org/hibernatejpatransport/</url>
+            <url>dav:https://dav.muleforge.org/jpa/</url>
         </site>
-    </distributionManagement>-->
+    </distributionManagement>
 
     <!-- End of MuleForge Configuration -->
     <repositories>
@@ -188,11 +187,11 @@
 		    </repository>
     </repositories>
 
-	  <distributionManagement>
+	  <!--<distributionManagement>
 		    <repository>
 			      <id>mule-user-ssh</id>
 			      <url>scp://luka.tk-bay.ogis-ri.co.jp/usr/mule/maven2</url>
 		    </repository>
-	  </distributionManagement>
+	  </distributionManagement>-->
 
 </project>
