@@ -1,15 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
    <modelVersion>4.0.0</modelVersion>
    <groupId>org.mule.transports</groupId>
    <artifactId>mule-transport-jpa</artifactId>
    <packaging>jar</packaging>
    <name>Mule JPA Transport</name>
-   <version>1.0</version>
-   <description></description>
+   <version>0.1</version>
+   <description />
 
     <properties>
         <mule.version>2.2.1</mule.version>
@@ -102,7 +99,12 @@
             <version>${mule.version}</version>
         </dependency>
 
-        <!-- Mule Modules -->
+        <!-- other libraries -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>ejb3-persistence</artifactId>
+            <version>1.0.2.GA</version>
+        </dependency>
         
         <!-- for testing -->
         <dependency>
@@ -123,11 +125,41 @@
             <version>3.8.2</version>
             <scope>test</scope>
         </dependency>
-        
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>ejb3-persistence</artifactId>
-            <version>1.0.2.GA</version>
+            <artifactId>hibernate</artifactId>
+            <version>3.2.6.ga</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>3.4.0.GA</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>3.4.0.GA</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.10.0.GA</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.6</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -138,16 +170,16 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://svn.muleforge.org/jpa/</connection>
-        <developerConnection>scm:svn:https://svn.muleforge.org/jpa/</developerConnection>
+        <connection>scm:svn:http://svn.muleforge.org/jpa/tags/mule-transport-jpa-0.1</connection>
+        <developerConnection>scm:svn:https://svn.muleforge.org/jpa/tags/mule-transport-jpa-0.1</developerConnection>
         <tag>HEAD</tag>
-        <url>http://svn.jpa.muleforge.org/</url>
+        <url>http://svn.jpa.muleforge.org/tags/mule-transport-jpa-0.1</url>
     </scm>
 
     <ciManagement>
         <system>Bamboo</system>
         <url>http://bamboo.muleforge.org/browse/JPA</url>
-        <notifiers/>
+        <notifiers />
     </ciManagement>
 
     <distributionManagement>
