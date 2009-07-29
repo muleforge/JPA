@@ -10,7 +10,6 @@ public class EntityManagerDeleteStrategy extends AbstractEntityManagerStrategy
 		this.em = em;
 	}
 	
-	@Override
 	public <T> T execute(T entity)
 	{
 		em.remove(entity);

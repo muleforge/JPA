@@ -10,7 +10,6 @@ public class EntityManagerMergeStrategy extends AbstractEntityManagerStrategy
 		this.em = em;
 	}
 
-	@Override
 	public <T> T execute(T entity)
 	{
 		return em.merge(entity);

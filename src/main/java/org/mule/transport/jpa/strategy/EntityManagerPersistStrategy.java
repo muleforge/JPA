@@ -10,7 +10,6 @@ public class EntityManagerPersistStrategy extends AbstractEntityManagerStrategy
 		this.em = em;
 	}
 
-	@Override
 	public <T> T execute(T entity)
 	{
 		em.persist(entity);
