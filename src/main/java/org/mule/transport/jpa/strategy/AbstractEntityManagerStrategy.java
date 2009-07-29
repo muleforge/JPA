@@ -6,13 +6,11 @@ public abstract class AbstractEntityManagerStrategy implements EntityManagerStra
 {
 	protected EntityManager em;
 	
-	@Override
 	public EntityManager getEntityManager()
 	{
 		return em;
 	}
 
-	@Override
 	public void lease()
 	{
     	if( em != null && em.isOpen() )
