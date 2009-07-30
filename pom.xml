@@ -5,7 +5,7 @@
    <artifactId>mule-transport-jpa</artifactId>
    <packaging>jar</packaging>
    <name>Mule JPA Transport</name>
-   <version>2.2.1.1-SNAPSHOT</version>
+   <version>2.2.1.0</version>
    <description />
 
     <properties>
