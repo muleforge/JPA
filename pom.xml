@@ -75,13 +75,13 @@
 
         </plugins>
         
-        <!--<extensions>
+        <extensions>
             <extension>
 				        <groupId>org.apache.maven.wagon</groupId>
 				        <artifactId>wagon-ssh</artifactId>
 				        <version>1.0-beta-5</version>
             </extension>
-        </extensions>-->
+        </extensions>
     </build>
 
     <reporting>
@@ -306,6 +306,10 @@
             <id>muleforge.webdav.sites</id>
             <url>dav:https://dav.muleforge.org/jpa/</url>
         </site>
+        <!--<repository>
+            <id>mule-user-ssh</id>
+            <url>scp://luka.tk-bay.ogis-ri.co.jp/usr/mule/maven2</url>
+        </repository>-->
     </distributionManagement>
 
     <!-- End of MuleForge Configuration -->
@@ -329,12 +333,5 @@
 						<url>http://repository.jboss.com/maven2</url>
 		    </repository>
     </repositories>
-
-	  <!--<distributionManagement>
-		    <repository>
-			      <id>mule-user-ssh</id>
-			      <url>scp://luka.tk-bay.ogis-ri.co.jp/usr/mule/maven2</url>
-		    </repository>
-	  </distributionManagement>-->
 
 </project>
