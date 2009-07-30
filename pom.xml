@@ -283,7 +283,6 @@
     <scm>
         <connection>scm:svn:http://svn.muleforge.org/jpa/tags/mule-transport-jpa-2.2.1.0</connection>
         <developerConnection>scm:svn:https://svn.muleforge.org/jpa/tags/mule-transport-jpa-2.2.1.0</developerConnection>
-        <tag>HEAD</tag>
         <url>http://svn.jpa.muleforge.org/tags/mule-transport-jpa-2.2.1.0</url>
     </scm>
 
