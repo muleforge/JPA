@@ -15,7 +15,7 @@ public class EntityManagerStrategyFactory
 	
 	private static EnumSet<ReceiveAction> receiveActions = EnumSet.of(ReceiveAction.DELETE, ReceiveAction.MERGE, ReceiveAction.PERSIST);
 	
-	public static boolean isValidReceiveAction(String action)
+	public synchronized static boolean isValidReceiveAction(String action)
 	{
 		boolean isMatch = false;
 		for(ReceiveAction receiveAction : receiveActions) {
@@ -31,7 +31,7 @@ public class EntityManagerStrategyFactory
 	{
 	}
 	
-	public static EntityManagerStrategy createEntityManagerCommand(EntityManager em, String queryType) throws Exception
+	public synchronized static EntityManagerStrategy createEntityManagerCommand(EntityManager em, String queryType) throws Exception
 	{
 		EntityManagerStrategy emcmd = null;
 		if(queryType.equalsIgnoreCase(ReceiveAction.DELETE.name()))
