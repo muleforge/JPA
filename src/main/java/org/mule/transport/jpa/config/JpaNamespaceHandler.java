@@ -10,6 +10,7 @@
  */
 package org.mule.transport.jpa.config;
 
+import org.mule.config.spring.factories.EndpointFactoryBean;
 import org.mule.config.spring.factories.InboundEndpointFactoryBean;
 import org.mule.config.spring.factories.OutboundEndpointFactoryBean;
 import org.mule.config.spring.handlers.AbstractMuleNamespaceHandler;
@@ -17,6 +18,7 @@ import org.mule.config.spring.parsers.MuleDefinitionParser;
 import org.mule.config.spring.parsers.collection.ChildSingletonMapDefinitionParser;
 import org.mule.config.spring.parsers.delegate.ParentContextDefinitionParser;
 import org.mule.config.spring.parsers.specific.endpoint.TransportEndpointDefinitionParser;
+import org.mule.config.spring.parsers.specific.endpoint.TransportGlobalEndpointDefinitionParser;
 import org.mule.config.spring.parsers.specific.properties.NestedMapDefinitionParser;
 import org.mule.transport.jpa.JpaConnector;
 import org.mule.endpoint.URIBuilder;
@@ -47,6 +49,18 @@ public class JpaNamespaceHandler extends AbstractMuleNamespaceHandler
         	);
         outboundParser.addAlias(DISPATCHER_ACTION, URIBuilder.HOST);
         registerBeanDefinitionParser("outbound-endpoint", outboundParser);
+        
+        TransportGlobalEndpointDefinitionParser endpointParser =
+        	new TransportGlobalEndpointDefinitionParser(
+        			JpaConnector.JPA, 
+        			TransportEndpointDefinitionParser.PROTOCOL, 
+        			TransportGlobalEndpointDefinitionParser.RESTRICTED_ENDPOINT_ATTRIBUTES, 
+        			new String[][] {new String[]{QUERY_KEY}, new String[]{DISPATCHER_ACTION}},
+	        		new String[][] {  }
+        	);
+        endpointParser.addAlias(QUERY_KEY, URIBuilder.HOST);
+        endpointParser.addAlias(DISPATCHER_ACTION, URIBuilder.HOST);
+        registerBeanDefinitionParser("endpoint", endpointParser);
         
         MuleDefinitionParser connectorQuery = new ChildSingletonMapDefinitionParser("query");
         MuleDefinitionParser endpointQuery = new NestedMapDefinitionParser("properties", "queries");
