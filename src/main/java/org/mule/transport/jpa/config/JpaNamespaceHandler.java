@@ -10,7 +10,6 @@
  */
 package org.mule.transport.jpa.config;
 
-import org.mule.config.spring.factories.EndpointFactoryBean;
 import org.mule.config.spring.factories.InboundEndpointFactoryBean;
 import org.mule.config.spring.factories.OutboundEndpointFactoryBean;
 import org.mule.config.spring.handlers.AbstractMuleNamespaceHandler;
