@@ -94,7 +94,7 @@
                 <xsd:attribute name="createChange-ref" type="xsd:NMTOKEN" use="optional"/>
 				        <xsd:attribute name="queryKey" type="xsd:string" use="optional"/>
                 <xsd:attribute name="maxFetchSize" type="xsd:long" use="optional"/>
-                <xsd:attribute name="action" default="merge" use="optional"/>
+                <xsd:attribute name="action" type="xsd:string" use="optional"/>
                 <xsd:attribute name="pollingFrequency" type="mule:substitutableLong" use="optional" />
             </xsd:extension>
         </xsd:complexContent>
