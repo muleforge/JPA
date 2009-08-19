@@ -305,10 +305,6 @@
             <id>muleforge.webdav.sites</id>
             <url>dav:https://dav.muleforge.org/jpa/</url>
         </site>
-        <!--<repository>
-            <id>mule-user-ssh</id>
-            <url>scp://luka.tk-bay.ogis-ri.co.jp/usr/mule/maven2</url>
-        </repository>-->
     </distributionManagement>
 
     <!-- End of MuleForge Configuration -->
@@ -319,18 +315,17 @@
             <url>http://repository.muleforge.org</url>
             <layout>default</layout>
         </repository>
-
         <repository>
             <id>codehaus-repo</id>
             <name>Codehaus Repository</name>
             <url>http://dist.codehaus.org/mule/dependencies/maven2</url>
             <layout>default</layout>
         </repository>
-		    <repository>
-						<id>jboss</id>
-						<name>JBoss Repository</name>
-						<url>http://repository.jboss.com/maven2</url>
-		    </repository>
+		<repository>
+			<id>jboss</id>
+			<name>JBoss Repository</name>
+			<url>http://repository.jboss.com/maven2</url>
+		</repository>
     </repositories>
 
 </project>
