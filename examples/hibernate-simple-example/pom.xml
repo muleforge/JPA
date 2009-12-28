@@ -107,7 +107,7 @@
         <configuration>
           <source>${jdk.version}</source>
           <target>${jdk.version}</target>
-          <encoding>ISO-8859-1</encoding>
+          <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
       <plugin>
@@ -248,21 +248,12 @@
       <artifactId>hibernate-annotations</artifactId>
       <version>3.4.0.GA</version>
     </dependency>
-    <!--<dependency>
-        <groupId>hibernate-commons-annotations</groupId>
-        <artifactId>hibernate-commons-annotations</artifactId>
-        <version>3.0.0.GA</version>
-      </dependency>-->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
       <version>3.4.0.GA</version>
     </dependency>
-    <!--<dependency>
-        <groupId>hibernate-entitymanager</groupId>
-        <artifactId>ejb3-persistence</artifactId>
-        <version>3.3.2.GA</version>
-      </dependency>-->
+
     <dependency>
       <groupId>javassist</groupId>
       <artifactId>javassist</artifactId>
