@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+  xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+>
+
+  <bean id="dataSource" class="org.enhydra.jdbc.pool.StandardXAPoolDataSource" destroy-method="stopPool">
+    <constructor-arg index="0">
+      <bean class="org.enhydra.jdbc.standard.StandardXADataSource">
+        <property name="driverName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/test?useServerPrepStmts=false"/>
+        <property name="transactionManager" ref="jbossTransactionManager"/>
+		    <property name="user" value="muled" />
+		    <property name="password" value="muled" />
+      </bean>
+    </constructor-arg>
+    <property name="user" value="muled" />
+    <property name="password" value="muled" />
+    <property name="minSize" value="1" />
+    <property name="maxSize" value="5" />
+    <property name="jdbcTestStmt" value="select 1" />
+        <property name="transactionManager" ref="jbossTransactionManager"/>
+  </bean>
+
+  <bean id="jbossUserTransaction" class="com.arjuna.ats.internal.jta.transaction.arjunacore.UserTransactionImple">
+    <property name="transactionTimeout" value="300"/>
+  </bean>
+  
+  <bean id="jbossTransactionManager" class="com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionManagerImple">
+  </bean>
+
+  <bean id="jndi" 
+        class="org.apache.xbean.spring.jndi.SpringInitialContextFactory" 
+        factory-method="makeInitialContext">
+    <property name="entries">
+      <map>
+        <entry key="java:/TransactionManager" value-ref="jbossTransactionManager"/>
+        <entry key="java:/UserTransaction" value-ref="jbossUserTransaction"/>
+        <entry key="java:/DataSource" value-ref="dataSource"/>
+      </map>
+    </property>
+  </bean>
+
+</beans>

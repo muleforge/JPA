@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.mule.application</groupId>
+  <artifactId>jpa-sample</artifactId>
+  <packaging>jar</packaging>
+  <name>Mule jpa-sample Application</name>
+  <version>1.0-SNAPSHOT</version>
+  <description></description>
+
+  <properties>
+    <mule.version>2.2.1</mule.version>
+    <!-- Tools properties -->
+    <eclipsePluginVersion>2.5</eclipsePluginVersion>
+    <vmtype>org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType</vmtype>
+    <jdk5Name>jdk1.6.0_14</jdk5Name>
+    <jdk.version>1.6</jdk.version>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <finalName>jpa-sample-${version}</finalName>
+          <descriptors>
+            <descriptor>assembly.xml</descriptor>
+          </descriptors>
+          <appendAssemblyId>false</appendAssemblyId>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+	  <execution>
+	    <goals>
+	      <goal>java</goal>
+	    </goals>
+	  </execution>
+        </executions>
+        <configuration>
+	  <mainClass>RunMuleServer</mainClass>
+	  <arguments>
+	    <argument>mule-config.xml</argument>
+	  </arguments>
+
+	  <!--
+	      <arguments>
+		<argument>argument1</argument>
+	      </arguments>
+	      <systemProperties>
+		<systemProperty>
+		  <key>myproperty</key>
+		  <value>myvalue</value>
+		</systemProperty>
+	      </systemProperties>
+	      -->
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+
+  <!-- plugins for creating site reports -->
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <version>${eclipsePluginVersion}</version>
+        <configuration>
+          <!-- by default download all sources when generating project files -->
+          <downloadSources>true</downloadSources>
+          <classpathContainers>
+            <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER/${vmtype}/${jdk15Name}
+            </classpathContainer>
+          </classpathContainers>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-idea-plugin</artifactId>
+        <configuration>
+          <downloadSources>true</downloadSources>
+          <jdkName>${jdk.version}</jdkName>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+          <encoding>ISO-8859-1</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <source>${jdk.version}</source>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>http://mulesource.org/download/attachments/92/checkstyle.xml?version=1
+          </configLocation>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <configuration>
+          <targetJdk>${jdk.version}</targetJdk>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <configuration>
+          <tags>
+            <tag>TODO</tag>
+            <tag>@todo</tag>
+            <tag>FIXME</tag>
+            <tag>@fixme</tag>
+            <tag>@deprecated</tag>
+          </tags>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <links>
+            <link>http://java.sun.com/j2ee/1.4/docs/api</link>
+            <link>http://java.sun.com/j2se/1.4.2/docs/api</link>
+            <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
+          </links>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jdepend-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <!-- Mule Dependencies -->
+  <dependencies>
+    <!-- Mule Modules: You will need to add and remove as necessary -->
+    <dependency>
+      <groupId>org.mule</groupId>
+      <artifactId>mule-core</artifactId>
+      <version>${mule.version}</version>
+    </dependency>
+
+    <!-- Mule Transports -->
+    <dependency>
+      <groupId>org.mule.transports</groupId>
+      <artifactId>mule-transport-stdio</artifactId>
+      <version>${mule.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mule.transports</groupId>
+      <artifactId>mule-transport-vm</artifactId>
+      <version>${mule.version}</version>
+    </dependency>
+    <!-- Mule Modules -->
+
+    <dependency>
+      <groupId>org.mule.modules</groupId>
+      <artifactId>mule-module-client</artifactId>
+      <version>${mule.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mule.modules</groupId>
+      <artifactId>mule-module-jbossts</artifactId>
+      <version>${mule.version}</version>
+    </dependency>
+    
+    <!-- for testing -->
+    <dependency>
+      <groupId>org.mule.tests</groupId>
+      <artifactId>mule-tests-functional</artifactId>
+      <version>${mule.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>mockobjects</groupId>
+      <artifactId>mockobjects-core</artifactId>
+      <version>0.09</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- hibernate-jpa -->
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+      <version>3.2.6.ga</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-annotations</artifactId>
+      <version>3.4.0.GA</version>
+    </dependency>
+    <!--<dependency>
+        <groupId>hibernate-commons-annotations</groupId>
+        <artifactId>hibernate-commons-annotations</artifactId>
+        <version>3.0.0.GA</version>
+      </dependency>-->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>3.4.0.GA</version>
+    </dependency>
+    <!--<dependency>
+        <groupId>hibernate-entitymanager</groupId>
+        <artifactId>ejb3-persistence</artifactId>
+        <version>3.3.2.GA</version>
+      </dependency>-->
+    <dependency>
+      <groupId>javassist</groupId>
+      <artifactId>javassist</artifactId>
+      <version>3.10.0.GA</version>
+    </dependency>
+    
+    <!-- mysql -->
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>1.8.0.7</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mule.transports</groupId>
+      <artifactId>mule-transport-jpa</artifactId>
+      <version>1.0</version>
+    </dependency>
+    
+    <!-- xbean -->
+    <dependency>
+      <groupId>org.apache.xbean</groupId>
+      <artifactId>xbean-spring</artifactId>
+      <version>3.5</version>
+    </dependency>
+    
+    <!-- xapool -->
+    <dependency>
+      <groupId>com.experlog</groupId>
+      <artifactId>xapool</artifactId>
+      <version>1.5.0</version>
+    </dependency>
+    
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>muleforge-repo</id>
+      <name>MuleForge Repository</name>
+      <url>http://repository.muleforge.org</url>
+      <layout>default</layout>
+    </repository>
+
+    <repository>
+      <id>mule-deps</id>
+      <name>Mule Dependencies</name>
+      <url>http://dist.codehaus.org/mule/dependencies/maven2</url>
+      <snapshots>
+	<enabled>true</enabled>
+      </snapshots>
+    </repository>
+
+    <repository>
+      <id>codehaus-repo</id>
+      <name>Codehaus Repository</name>
+      <url>http://dist.codehaus.org/mule/dependencies/maven2</url>
+      <layout>default</layout>
+    </repository>
+    
+    <repository>
+      <id>apache.snapshots</id>
+      <name>Apache Development Snapshot Repository</name>
+      <url>
+	http://people.apache.org/repo/m2-snapshot-repository
+      </url>
+      <releases>
+	<enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
+</project>

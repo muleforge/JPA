@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesource.org/schema/mule/core/2.2"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:spring="http://www.springframework.org/schema/beans"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:stdio="http://www.mulesource.org/schema/mule/stdio/2.2"
+       xmlns:vm="http://www.mulesource.org/schema/mule/vm/2.2"
+       xmlns:jpa="http://www.mulesource.org/schema/mule/jpa/2.2"
+        xsi:schemaLocation="
+       http://www.mulesource.org/schema/mule/core/2.2 http://www.mulesource.org/schema/mule/core/2.2/mule.xsd
+       http://www.mulesource.org/schema/mule/stdio/2.2 http://www.mulesource.org/schema/mule/stdio/2.2/mule-stdio.xsd
+       http://www.mulesource.org/schema/mule/vm/2.2 http://www.mulesource.org/schema/mule/vm/2.2/mule-vm.xsd
+       http://www.mulesource.org/schema/mule/jpa/2.2 http://localhost/mule-jpa.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <description>
+    
+    </description>
+
+    <spring:beans>
+        <jee:jndi-lookup id="jbossTransactionManager" jndi-name="java:/TransactionManager"/>
+        <jee:jndi-lookup id="jbossUserTransaction" jndi-name="java:/UserTransaction"/>
+    </spring:beans>
+
+    <jndi-transaction-manager jndiName="java:/TransactionManager"/>
+
+    <jpa:connector name="jpaConnector" persistenceUnit="manager1">
+        <receiver-threading-profile maxThreadsActive="1" />
+        <dispatcher-threading-profile maxThreadsActive="1"/>
+        <jpa:query key="k1" value="SELECT i0 FROM Item i0 WHERE price &lt;&gt; 10000" />
+    </jpa:connector>
+
+    <model name="main">
+
+        <service name="jpa-sample">
+            <inbound>
+                <jpa:inbound-endpoint connector-ref="jpaConnector" pollingFrequency="10000" queryKey="k1" maxFetchSize="100" synchronous="true" >
+                    <!--<xa-transaction action="ALWAYS_BEGIN" />-->
+                </jpa:inbound-endpoint>
+            </inbound>
+
+            <component class="Simple"/>
+
+            <outbound>
+                <pass-through-router>
+                    <jpa:outbound-endpoint connector-ref="jpaConnector" action="merge" synchronous="true">
+                        <!--<xa-transaction action="ALWAYS_JOIN"/>-->
+                    </jpa:outbound-endpoint>
+                </pass-through-router>
+            </outbound>
+        </service>
+    </model>
+</mule>
