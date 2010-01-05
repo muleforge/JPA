@@ -57,7 +57,11 @@
         <configuration>
 	  <mainClass>RunMuleServer</mainClass>
 	  <arguments>
+
+<!--
 	    <argument>mule-config.xml</argument>
+-->
+	    <argument>mule-config-jms.xml</argument>
 	  </arguments>
 
 	  <!--
@@ -199,6 +203,13 @@
       <artifactId>mule-transport-vm</artifactId>
       <version>${mule.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.mule.transports</groupId>
+      <artifactId>mule-transport-jms</artifactId>
+      <version>${mule.version}</version>
+    </dependency>
+
     <!-- Mule Modules -->
 
     <dependency>
@@ -294,6 +305,13 @@
       <version>1.5.0</version>
     </dependency>
     
+    <!-- activemq -->
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-core</artifactId>
+      <version>5.2.0</version>
+    </dependency>
+
   </dependencies>
 
   <repositories>

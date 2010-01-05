@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesource.org/schema/mule/core/2.2"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:spring="http://www.springframework.org/schema/beans"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:stdio="http://www.mulesource.org/schema/mule/stdio/2.2"
+       xmlns:vm="http://www.mulesource.org/schema/mule/vm/2.2"
+       xmlns:jms="http://www.mulesource.org/schema/mule/jms/2.2"
+       xmlns:jpa="http://www.mulesource.org/schema/mule/jpa/2.2"
+        xsi:schemaLocation="
+       http://www.mulesource.org/schema/mule/core/2.2 http://www.mulesource.org/schema/mule/core/2.2/mule.xsd
+       http://www.mulesource.org/schema/mule/stdio/2.2 http://www.mulesource.org/schema/mule/stdio/2.2/mule-stdio.xsd
+       http://www.mulesource.org/schema/mule/vm/2.2 http://www.mulesource.org/schema/mule/vm/2.2/mule-vm.xsd
+       http://www.mulesource.org/schema/mule/jms/2.2 http://www.mulesource.org/schema/mule/jms/2.2/mule-jms.xsd
+       http://www.mulesource.org/schema/mule/jpa/2.2 META-INF/mule-jpa.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <description>
+    </description>
+
+    <jpa:connector name="jpaConnector1" persistenceUnit="manager1">
+        <receiver-threading-profile maxThreadsActive="1" />
+        <dispatcher-threading-profile maxThreadsActive="1"/>
+
+        <jpa:query key="k1" value="SELECT i0 FROM Item i0 " />
+    </jpa:connector>
+
+    <jpa:connector name="jpaConnector2" persistenceUnit="manager2">
+        <receiver-threading-profile maxThreadsActive="1" />
+        <dispatcher-threading-profile maxThreadsActive="1"/>
+    </jpa:connector>
+
+    <jms:activemq-connector name="ActiveMQConnector"
+			    brokerURL="tcp://localhost:61616"
+			    specification="1.1" />
+
+    <jms:jmsmessage-to-object-transformer name="JMSMessageToObject" /> 
+    <jms:object-to-jmsmessage-transformer name="ObjectToJMSMessage" /> 
+
+
+
+    <model name="main">
+        <service name="jpa-sample">
+            <inbound>
+                <jpa:inbound-endpoint connector-ref="jpaConnector1" 
+				      pollingFrequency="10000" 
+				      queryKey="k1" 
+				      maxFetchSize="100" 
+				      synchronous="false" >
+
+                </jpa:inbound-endpoint>
+            </inbound>
+            <outbound>
+                <pass-through-router>
+                  <jms:outbound-endpoint address="jms://jpa.queue"
+			    connector-ref="ActiveMQConnector"
+			    synchronous="false"/>
+                </pass-through-router>
+            </outbound>
+        </service>
+
+        <service name="jpa-sample2">
+           <inbound>
+             <inbound-endpoint address="jms://jpa.queue"
+			    connector-ref="ActiveMQConnector"
+			    synchronous="false" />
+            </inbound>
+            <outbound>
+                <pass-through-router>
+                    <jpa:outbound-endpoint connector-ref="jpaConnector2" action="merge" synchronous="false">
+                    </jpa:outbound-endpoint>
+                </pass-through-router>
+            </outbound>
+        </service>
+    </model>
+</mule>
